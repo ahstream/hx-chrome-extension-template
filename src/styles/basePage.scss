@@ -1,0 +1,31 @@
+@import '@styles/base.scss';
+@import '@styles/bootstrap.scss';
+
+.page-container {
+  //: lightblue;
+  padding: 0;
+}
+
+.main-container {
+  //background-color: gold;
+  padding: 0.8rem 0;
+}
+
+.main-content-container {
+  //background-color: lightgreen;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.page-title {
+  margin: 10px 0 20px 0 !important;
+}

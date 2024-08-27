@@ -1,0 +1,44 @@
+{
+  "name": "hx-chrome-extension-template",
+  "description": "Chrome extension template",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "downloads",
+    "scripting",
+    "activeTab",
+    "tabs",
+    "webNavigation",
+    "clipboardWrite",
+    "debugger"
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwFwZUkA7o2wZ0KdvT7vGU0j6ODsRAPQajcwbx5M/rEWu/bx5BB4Nnpx58J9BDbcFVBOlrgyExNkaAxBLt+0udJFk0Fg6vBou1DlnGrIK9j+cN+E0pTQqS05/d2D/OrYdtVy+6p8apgCT0RymzxKtLDPERS40Dn6xCTVe3y2mx1TLMTAOMB0v6eHMkbUC4ltC+bMtH+yRi+SppJe2UbcanXbb1GwFVMzxFgYZG+CX6QeYPlFptcnwJoEr3Gtx9mz4V4ppSBpqattlESPRO1FFrxzlzJwN9KF+mwuDAdfZQXpMlhC+diDRJ/9hAkUd5fdWadp4qV0sd2/RCo2s20AdPwIDAQAB",
+  "host_permissions": ["<all_urls>"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "/images/icons/16.png",
+    "32": "/images/icons/32.png",
+    "48": "/images/icons/48.png",
+    "128": "/images/icons/128.png"
+  },
+  "background": {
+    "service_worker": "serviceWorker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "exclude_matches": [],
+      "js": ["twitter.js"],
+      "css": ["twitter.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

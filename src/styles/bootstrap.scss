@@ -1,0 +1,35 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+
+$h-font-size-mult: 0.7;
+$h1-font-size: calc((1.375rem + 1.5vw) * $h-font-size-mult);
+$h2-font-size: calc((1.325rem + 0.9vw) * $h-font-size-mult);
+$h3-font-size: calc((1.3rem + 0.6vw) * $h-font-size-mult);
+$h4-font-size: calc((1.275rem + 0.3vw) * $h-font-size-mult);
+$h5-font-size: 1.25rem * $h-font-size-mult;
+$h6-font-size: 1rem * $h-font-size-mult;
+
+@import '@/node_modules/bootstrap/scss/bootstrap.scss';
+
+// overrides
+
+.navbar-brand {
+  font-size: 1rem;
+  padding-right: 2.8rem;
+}
+
+.navbar {
+  padding: 0;
+}
+
+@mixin make-container($padding-x: $container-padding-x) {
+  width: 100%;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Usage
+.custom-container {
+  @include make-container(0);
+}

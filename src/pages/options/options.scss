@@ -1,0 +1,100 @@
+@import '@styles/basePage.scss';
+
+.row > * {
+  padding-right: 20px !important;
+  padding-left: 0px !important;
+  /* padding-left: calc(var(--bs-gutter-x)* 0.5); */
+  /* margin-top: var(--bs-gutter-y); */
+}
+
+.option-row {
+  input {
+    margin: 0 10px 0 0 !important;
+  }
+}
+
+.option-col > * {
+  display: block;
+  input {
+    margin: 0 10px 0 0 !important;
+  }
+}
+
+label {
+  font-weight: 600 !important;
+  padding: 4px 12px 4px 0;
+  margin-bottom: 2px;
+}
+
+.section-header {
+  font-size: 1em;
+  font-weight: bold;
+  background-color: antiquewhite;
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  margin: 10px 0;
+}
+
+.subheader {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.description {
+  margin: 5px 0 20px 0;
+  padding: 5px 0;
+  span {
+    font-style: italic;
+  }
+}
+
+.box {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  display: block;
+  width: 100%;
+  padding: 12px 12px 0 12px;
+  margin-bottom: 20px;
+}
+
+table tr td {
+  border: none;
+}
+
+table {
+  margin: 0 !important;
+}
+
+tr {
+  background-color: unset;
+}
+
+td {
+  white-space: nowrap;
+  padding: 0 1rem 0 0;
+}
+
+td label {
+  font-weight: 600;
+  padding: 0 10px 8px 0;
+  margin-bottom: 2px;
+}
+
+.info-icon {
+  padding: 0 5px;
+}
+
+.buttons-row {
+  display: inline-block;
+  margin: 20px 0;
+  button {
+    margin-right: 15px;
+  }
+}
+
+#statusText {
+  margin-left: 20px;
+  background-color: rgb(167, 253, 141);
+  font-weight: bold;
+}

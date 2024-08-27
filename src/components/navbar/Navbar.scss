@@ -1,0 +1,34 @@
+nav.navbar-top {
+  color: white;
+  background-color: royalblue;
+  font-size: 1rem;
+}
+
+nav.navbar-top .nav-link {
+  color: white;
+  font-size: 1rem;
+  padding: 5px 0;
+}
+
+nav.navbar-top .nav-link.active,
+nav.navbar-top .nav-item.active {
+  color: white;
+  font-weight: bold;
+}
+
+nav.navbar-top .navbar-text {
+  color: white;
+  padding: 5px 0;
+}
+
+.navbar-brand {
+  margin-right: 0px;
+}
+
+.navbar-top.container {
+  padding: 0 !important;
+}
+
+.navbar-text-title {
+  margin-right: 100px;
+}

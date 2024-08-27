@@ -1,0 +1,31 @@
+// UTILITY CLASSES
+
+:root {
+  --subtle-text-color: #8a7070;
+}
+
+.white {
+  background-color: white;
+  color: white;
+  border: 1px solid white;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.subtle-text {
+  color: var(--subtle-text-color);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
