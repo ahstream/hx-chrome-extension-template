@@ -1,3 +1,6 @@
+import { dispatch } from '@ahstream/hx-lib';
+import { DISPATCHED_REQUEST_LIFETIME_SECS } from '@config/constants.js';
+
 export function echo(v) {
   return v;
 }
@@ -75,4 +78,24 @@ export function createDOMElement(
     elem.appendChild(child);
   }
   return elem;
+}
+
+export async function dispatchPage(pagestate, lifetime = DISPATCHED_REQUEST_LIFETIME_SECS) {
+  if (pagestate.request) {
+    return console.info('Already dispatched', pagestate.request);
+  }
+  const request = await dispatch(window.location.href, lifetime);
+  console.info('Dispatched request:', request);
+  if (request) {
+    pagestate.request = request;
+  }
+  if (request?.cmd) {
+    pagestate.requestCmd = request?.cmd;
+  }
+  if (request?.action) {
+    pagestate.requestAction = request?.action;
+  }
+  if (request?.tabId) {
+    pagestate.parentTabId = request?.tabId;
+  }
 }

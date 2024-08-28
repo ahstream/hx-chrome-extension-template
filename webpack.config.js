@@ -22,6 +22,7 @@ const base = {
     shortcuts: './src/pages/shortcuts/shortcuts.js',
     samplePage: './src/pages/samplePage/samplePage.js',
     twitter: './src/contentScripts/twitter.js',
+    opensea: './src/contentScripts/opensea.js',
   },
   output: {
     filename: '[name].js',

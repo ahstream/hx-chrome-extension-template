@@ -43,7 +43,7 @@ async function mountShortcuts(shortcuts, approvedUrls) {
 
   if (isApprovedUrl(url, approvedUrls)) {
     console.info('Open pending url:', url);
-    await addPendingRequest(url, { action: action || 'fromShortcut' });
+    await addPendingRequest(url, { cmd, action });
     window.location.href = url;
   } else {
     console.warn('Unapproved url:', url);

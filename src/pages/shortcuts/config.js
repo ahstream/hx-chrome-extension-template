@@ -6,8 +6,8 @@
 // 1. Run command:
 // chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=minimize-window
 //
-// 2. Open url and run action in content_script:
-// chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?action=doSomething&url=https://example.org/
+// 2. Open url and run cmd in content_script:
+// chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=start-fetch-task&url=https://opensea.io/
 // --------------------------------------------------------------
 
 import { getQueryParam, addPendingRequest } from '@ahstream/hx-lib';
@@ -30,13 +30,7 @@ export function getShortcuts(storage) {
       },
     },
     {
-      cmd: 'storage-usage-example',
-      callback: () => {
-        window.alert(JSON.stringify(storage).length);
-      },
-    },
-    {
-      cmd: 'dispatch-example',
+      cmd: 'send-message-example',
       callback: () => {
         return chrome.runtime.sendMessage({
           cmd: 'openInSameTab',
@@ -53,7 +47,7 @@ export function getShortcuts(storage) {
           return;
         }
         await addPendingRequest(url, {
-          action: 'something',
+          action: 'do-something',
           data: 123,
         });
         window.location.href = url;

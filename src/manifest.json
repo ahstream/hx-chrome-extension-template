@@ -35,9 +35,14 @@
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*", "https://x.com/*"],
-      "exclude_matches": [],
       "js": ["twitter.js"],
       "css": ["twitter.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://opensea.io/*"],
+      "js": ["opensea.js"],
+      "css": ["opensea.css"],
       "run_at": "document_start"
     }
   ]

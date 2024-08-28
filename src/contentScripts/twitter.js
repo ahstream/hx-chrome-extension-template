@@ -4,12 +4,11 @@ import { startContentScriptPage } from '@lib/contentScriptLib.js';
 
 // CONFIG
 
-import '@styles/contentPages/twitter.scss';
-console.info('twitter.js begin', window?.location?.href);
+import '@styles/contentPages/default.scss';
 
+const name = 'twitter';
 const LOG_LEVEL = 'debug';
-//const onLoadEvents = ['/* load */', 'DOMContentLoaded'];
-const onLoadEvents2 = { load: true, DOMContentLoaded: true };
+const onLoadEvents = { load: true, DOMContentLoaded: true };
 const statusbarConfig = { enabled: true };
 
 // AUTO STARTUP
@@ -19,7 +18,8 @@ const pagestate = {
   statusbar: null,
 };
 
-startContentScriptPage(LOG_LEVEL, onLoaded, onLoadEvents2, statusbarConfig);
+console.info(`${name}.js begin`, window?.location?.href);
+startContentScriptPage(LOG_LEVEL, onLoaded, onLoadEvents, statusbarConfig);
 
 async function onLoaded(log, statusbar) {
   pagestate.log = log;

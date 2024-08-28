@@ -29,6 +29,7 @@
 }
 
 .hx-statusbar {
+  z-index: 2147483647;
   color: var(--default-color);
   background-color: var(--default-background-color);
   padding: 5px 7px !important;
