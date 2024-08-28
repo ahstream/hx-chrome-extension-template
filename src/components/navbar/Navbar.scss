@@ -1,6 +1,6 @@
 nav.navbar-top {
   color: white;
-  background-color: royalblue;
+  background-color: #4169e1;
   font-size: 1rem;
 }
 
@@ -19,6 +19,11 @@ nav.navbar-top .nav-item.active {
 nav.navbar-top .navbar-text {
   color: white;
   padding: 5px 0;
+}
+
+a.nav-link {
+  padding-left: 15px !important;
+  padding-right: 0px !important;
 }
 
 .navbar-brand {

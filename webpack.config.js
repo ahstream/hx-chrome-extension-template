@@ -12,6 +12,7 @@ const { merge } = require('webpack-merge');
 const base = {
   entry: {
     serviceWorker: './src/background/serviceWorker.js',
+    statusbar: './src/statusbar/statusbar.js',
     popup: './src/pages/popup/popup.js',
     options: './src/pages/options/options.js',
     storage: './src/pages/storage/storage.js',

@@ -8,7 +8,7 @@ export default function NavbarTop() {
   return (
     <Navbar expand="lg" className="navbar-top">
       <Container className="navbar-top d-flex justify-content-between">
-        <Navbar.Text className="navbar-text-title">CHROME EXTENSION</Navbar.Text>
+        <Navbar.Text className="navbar-text-title">CHROME EXTENSION NAVBAR</Navbar.Text>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end float-right">
           <Nav className="right">

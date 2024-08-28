@@ -1,0 +1,121 @@
+@import '@styles/basePage.scss';
+
+:root {
+  --default-color: white;
+  --default-background-color: #b40af7;
+
+  --info-color: var(--default-color);
+  --info-background-color: var(--default-background-color);
+
+  --ok-color: white;
+  --ok-background-color: rgb(4, 136, 4);
+
+  --warn-color: black;
+  --warn-background-color: rgb(238, 135, 135);
+
+  --error-color: white;
+  --error-background-color: red;
+
+  --btn-color: #24292e;
+  --btn-background-color: #fafbfc;
+  --btn-border-color: rgba(27, 31, 35, 0.15);
+
+  --btn-hover-color: #fafbfc;
+  --btn-hover-background-color: #24292e;
+
+  --btn-disabled-color: #959da5;
+  --btn-disabled-background-color: #c3c8ce;
+  --btn-disabled-border-color: rgba(27, 31, 35, 0.15);
+}
+
+.hx-statusbar {
+  color: var(--default-color);
+  background-color: var(--default-background-color);
+  padding: 5px 7px !important;
+  gap: 5px;
+  padding: 5px 0 !important;
+  margin-bottom: 1px;
+  border: 1px solid white;
+}
+
+.hx-statusbar {
+  margin: auto !important;
+}
+
+.xxx-hx-statusbar-container.container {
+  margin: 0 !important;
+}
+
+.hx-statusbar.hidden {
+  opacity: 0;
+  display: none;
+}
+
+.hx-statusbar.info {
+  color: var(--default-color);
+  background-color: var(--default-background-color);
+}
+
+.hx-statusbar.ok {
+  color: var(--ok-color);
+  background-color: var(--ok-background-color);
+}
+
+.hx-statusbar.warn {
+  color: var(--warn-color);
+  background-color: var(--warn-background-color);
+}
+
+.hx-statusbar.error {
+  color: var(--error-color);
+  background-color: var(--error-background-color);
+}
+
+.hx-statusbar button {
+  appearance: none;
+  color: var(--btn-color);
+  background-color: var(--btn-background-color);
+  border: 1px solid var(--btn-border-color);
+  border-radius: 6px;
+  border-radius: 0px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  list-style: none;
+  position: relative;
+  transition: background-color 0.01s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+  padding: 3px 12px;
+  margin: 0 0 0 8px;
+}
+
+.hx-statusbar button:hover {
+  cursor: pointer;
+  color: var(--btn-hover-color);
+  background-color: var(--btn-hover-background-color);
+  text-decoration: none;
+  transition-duration: 0.01s;
+}
+
+.hx-statusbar button:disabled {
+  cursor: default;
+  color: var(--btn-disabled-color);
+  background-color: var(--btn-disabled-background-color);
+  border-color: var(--btn-disabled-border-color);
+}
+
+li.error {
+  background-color: yellow;
+  color: red;
+}

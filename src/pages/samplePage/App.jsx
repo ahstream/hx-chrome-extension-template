@@ -2,7 +2,11 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import PageLayout from '@components/pageLayout/PageLayout.jsx';
 import { loadStorage } from '@ahstream/hx-lib';
+import { create as createStatusbar } from '@lib/statusbarLib.js';
+
 import './samplePage.scss';
+
+let statusbar = null;
 
 export default function App() {
   console.log('App start');
@@ -20,6 +24,11 @@ export default function App() {
         setPageInitialized(true);
         setPageLoading(false);
         console.log('initPage storage:', storage);
+        const buttons = [{ text: 'Alert', handler: () => window.alert('Alert!') }];
+        statusbar = createStatusbar('Chrome Extension Statusbar', 'page-container', buttons, {
+          options: true,
+        });
+        console.log('initPage statusbar:', statusbar);
       } catch (error) {
         setPageError(error);
         setPageLoading(false);
@@ -27,6 +36,8 @@ export default function App() {
     }
     initPage();
   }, []);
+
+  setTimeout(() => console.log(statusbar), 5000);
 
   return (
     <>
