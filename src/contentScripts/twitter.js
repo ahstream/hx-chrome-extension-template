@@ -1,40 +1,36 @@
-console.info('twitter.js begin', window?.location?.href);
+import { startContentScriptPage } from '@lib/contentScriptLib.js';
 
-import { sleep } from '@ahstream/hx-lib';
-import { createStatusbar } from '@src/statusbar/statusbar.js';
+//import { sleep } from '@ahstream/hx-lib';
+
+// CONFIG
 
 import '@styles/contentPages/twitter.scss';
+console.info('twitter.js begin', window?.location?.href);
 
-import { echo } from '@src/lib/hxLib.js';
+const LOG_LEVEL = 'debug';
+//const onLoadEvents = ['/* load */', 'DOMContentLoaded'];
+const onLoadEvents2 = { load: true, DOMContentLoaded: true };
+const statusbarConfig = { enabled: true };
 
-console.info(echo('hi'));
+// AUTO STARTUP
 
-mountContentScript();
+const pagestate = {
+  log: null,
+  statusbar: null,
+};
 
-async function mountContentScript() {
-  //window.addEventListener('load', onLoad);
-  window.addEventListener('DOMContentLoaded', onLoad);
-  await sleep(1);
+startContentScriptPage(LOG_LEVEL, onLoaded, onLoadEvents2, statusbarConfig);
+
+async function onLoaded(log, statusbar) {
+  pagestate.log = log;
+  pagestate.statusbar = statusbar;
+  console.info('onLoaded pagestate:', pagestate);
+  runContentPage();
 }
 
-async function onLoad() {
-  console.log('onLoad');
-  if (window.hxIsLoaded) {
-    return console.log('Page already loaded, ignore onLoad event!');
-  }
-  window.hxIsLoaded = true;
+// CUSTOM STARTUP
 
-  const optionsButton = { text: 'Options', handler: () => window.alert('Options') };
-  const statusbar = createStatusbar('Chrome Extension Statusbar', {
-    buttons: [optionsButton],
-    className: 'container',
-    prependElem: 'body',
-  });
-  console.log(statusbar);
-
-  runContentScript();
-}
-
-function runContentScript() {
-  console.log('runContentScript');
+function runContentPage() {
+  console.info('runContentPage');
+  pagestate.statusbar.button({ text: 'Alert', handler: () => window.alert('Alert') });
 }

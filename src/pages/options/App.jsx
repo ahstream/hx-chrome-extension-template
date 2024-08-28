@@ -147,7 +147,9 @@ function Option({ option, storage }) {
   if (key === 'table') {
     return (
       <table>
-        <Options options={val} storage={storage} />
+        <tbody>
+          <Options options={val} storage={storage} />
+        </tbody>
       </table>
     );
   }
@@ -214,6 +216,10 @@ function Option({ option, storage }) {
 // HELPER FUNCTIONS ---------------------------------------------------------------
 
 function createRadioButtons(name, val, arr, infoText = null) {
+  if (typeof val === 'undefined') {
+    return <></>;
+  }
+
   const infoIcon = makeInfoIcon(infoText);
 
   return (
@@ -236,6 +242,9 @@ function createRadioButtons(name, val, arr, infoText = null) {
 }
 
 function createCheckboxCombo(name, val, text, name2, val2, minLength = MIN_TEXT_INPUT_LENGTH) {
+  if (typeof val === 'undefined') {
+    return <></>;
+  }
   const labelText = typeof text === 'string' ? text : name;
 
   const valText = convertStringVal(val2, 'error');
@@ -260,6 +269,10 @@ function createProperty(
   infoText = null,
   minLength = MIN_TEXT_INPUT_LENGTH
 ) {
+  if (typeof val === 'undefined') {
+    return <></>;
+  }
+
   const labelText = typeof text === 'string' ? text : name;
 
   const infoIcon = makeInfoIcon(infoText);
@@ -326,6 +339,10 @@ function createPropertyCell(
   infoText = null,
   minLength = MIN_TEXT_INPUT_LENGTH
 ) {
+  if (typeof val === 'undefined') {
+    return <></>;
+  }
+
   const labelText = typeof text === 'string' ? text : name;
 
   const infoIcon = makeInfoIcon(infoText);
@@ -338,12 +355,12 @@ function createPropertyCell(
     const valText = valOrDefault(val.join('\n'), '');
     return (
       <tr>
-        <td nowrap>
+        <td nowrap="true">
           <label htmlFor={name} title={infoText}>
             {labelText}: {infoIcon}
           </label>
         </td>
-        <td nowrap>
+        <td nowrap="true">
           <textarea cols={100} rows={length} id={name} defaultValue={valText} />
         </td>
       </tr>
@@ -358,12 +375,12 @@ function createPropertyCell(
   const width = typedLength * 10 + 40;
   return (
     <tr>
-      <td nowrap>
+      <td nowrap="true">
         <label htmlFor={name} title={infoText}>
           {labelText}:
         </label>
       </td>
-      <td nowrap>
+      <td nowrap="true">
         <input type="text" id={name} style={{ width: `${width}px` }} defaultValue={valText} />
         {labelAfter} {infoIcon}
       </td>

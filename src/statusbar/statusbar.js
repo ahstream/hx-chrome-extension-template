@@ -52,6 +52,9 @@ export function createStatusbar(
   }
 
   function addButton({ text, title, disabled, handler }) {
+    if (!text) {
+      return;
+    }
     document
       .getElementById('hx-statusbar-right-col')
       .prepend(createButton({ text, title, disabled, handler }));
