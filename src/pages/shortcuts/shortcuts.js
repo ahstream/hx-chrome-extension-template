@@ -1,7 +1,34 @@
+/*
+BASE_URL = chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html
+
+These will trigger a chrome.runtime.sendMessage with args as input:
+
+- {BASE_URL}?cmd=closeOtherTabs
+- {BASE_URL}?cmd=closeTabsButOne&butOneUrl=chrome://about/
+
+If targetUrl is present, pending request with args as input will be created, and url will be opened:
+
+- {BASE_URL}?cmd=startSampleTask&targetUrl=https://opensea.io/
+- {BASE_URL}?cmd=startSampleTask&targetUrl=https://opensea.io/&numArg=123&textArg=lorem
+
+If delaySecs hash is present, execution will be delayed:
+
+- {BASE_URL}?cmd=closeOtherTabs#delaySecs=5
+- {BASE_URL}?cmd=startSampleTask&targetUrl=https://opensea.io/#delaySecs=60
+
+Sample URLs:
+
+chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=closeOtherTabs
+chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=closeTabsButOne&url=chrome://about/
+chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=startSampleTask&targetUrl=https://opensea.io/
+chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=startSampleTask&targetUrl=https://opensea.io/&numArg=123&textArg=lorem
+chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=closeOtherTabs#delaySecs=5
+chrome-extension://oodlifcpofmkpmicafoobehcmaegjkbe/shortcuts.html?cmd=startSampleTask&targetUrl=https://opensea.io/#delaySecs=60
+*/
+
 console.info('shortcuts.js begin', window?.location?.href);
 
 import {
-  getStorageItems,
   addPendingRequest,
   createHashArgs,
   millisecondsAhead,
@@ -9,50 +36,37 @@ import {
   minutesBetween,
 } from '@ahstream/hx-lib';
 
-import { VALID_URLS, getShortcuts } from './config.js';
+runShortcut();
 
-getStorageItems(['options']).then((storage) => {
-  mountShortcuts(getShortcuts(storage), VALID_URLS);
-});
-
-async function mountShortcuts(shortcuts, approvedUrls) {
-  if (!shortcuts) {
-    return;
-  }
-
-  const params = new URL(window.location.href).searchParams;
+async function runShortcut() {
+  const searchParams = new URL(window.location.href).searchParams;
   //console.info('params:', params);
-  const cmd = params.get('cmd') || null;
-  const url = params.get('url') || null;
-  const action = params.get('action') || null;
+  const cmd = searchParams.get('cmd') || null;
+  const targetUrl = searchParams.get('targetUrl') || null;
 
-  console.info('Run shortcut:', cmd, url, window?.location?.href);
+  console.info('Run shortcut:', cmd, targetUrl, window?.location?.href);
 
-  for (let item of shortcuts) {
-    if (cmd === item.cmd) {
-      console.info('Run cmd:', cmd);
-      await waitForDelay();
-      return item.callback();
-    }
+  if (!cmd) {
+    return console.warn('Missing shortcut cmd', window?.location?.href);
   }
 
-  if (!url) {
-    console.warn('Missing cmd and url:', window?.location?.href);
-    return;
+  await waitForDelay();
+
+  const args = {};
+  for (const [key, value] of searchParams.entries()) {
+    args[key] = value;
   }
 
-  if (isApprovedUrl(url, approvedUrls)) {
-    console.info('Open pending url:', url);
-    await addPendingRequest(url, { cmd, action });
-    window.location.href = url;
-  } else {
-    console.warn('Unapproved url:', url);
+  if (!targetUrl) {
+    return chrome.runtime.sendMessage(args);
   }
+
+  console.info('Open pending url:', targetUrl);
+  await addPendingRequest(targetUrl, args);
+  window.location.href = targetUrl;
 }
 
 // HELPERS
-
-let delayUntil = null;
 
 async function waitForDelay() {
   if (!window?.location?.hash) {
@@ -65,7 +79,7 @@ async function waitForDelay() {
     return;
   }
   const runAt = new Date(millisecondsAhead(delaySecs * 1000, new Date()));
-  delayUntil = runAt;
+  const delayUntil = runAt;
 
   const span = document.createElement('span');
   span.id = 'delay-msg';
@@ -76,32 +90,18 @@ async function waitForDelay() {
   span.style.paddingTop = '20%';
   document.body.style.backgroundColor = 'orange';
   document.body.appendChild(span);
-  updateDelayMsg();
+  updateDelayMsg(delayUntil);
   await sleep(delaySecs * 1000);
+  document.body.style.backgroundColor = '#38e738';
+  document.getElementById('delay-msg').innerText = `Shortcut ran at ${new Date().toLocaleTimeString()}`;
 }
 
-function updateDelayMsg() {
+function updateDelayMsg(delayUntil) {
+  if (Date.now() >= delayUntil) {
+    return;
+  }
   const m = minutesBetween(new Date(), delayUntil);
   const runAtStr = delayUntil.toLocaleTimeString();
   document.getElementById('delay-msg').innerText = `Delay run of shortcut ${m} minutes until ${runAtStr}`;
-  setTimeout(updateDelayMsg, 60 * 1000);
-}
-
-function isApprovedUrl(url, approvedUrls) {
-  //console.info('isApprovedUrl; url, approvedUrls:', url, approvedUrls);
-  if (!Array.isArray(approvedUrls)) {
-    // No list of URLS -> all urls are approved!
-    return true;
-  }
-  if (!approvedUrls?.length) {
-    // Empty list of URLS -> no urls are approved!
-    return false;
-  }
-  for (let re of approvedUrls) {
-    //console.log('url.match(re):', url.match(re), re);
-    if (url.match(re)) {
-      return true;
-    }
-  }
-  return false;
+  setTimeout(() => updateDelayMsg(delayUntil), 60 * 1000);
 }

@@ -80,7 +80,7 @@ export function createDOMElement(
   return elem;
 }
 
-export async function dispatchPage(pagestate, lifetime = DISPATCHED_REQUEST_LIFETIME_SECS) {
+export async function dispatchPage2(pagestate, lifetime = DISPATCHED_REQUEST_LIFETIME_SECS) {
   if (pagestate.request) {
     return console.info('Already dispatched', pagestate.request);
   }
@@ -89,13 +89,6 @@ export async function dispatchPage(pagestate, lifetime = DISPATCHED_REQUEST_LIFE
   if (request) {
     pagestate.request = request;
   }
-  if (request?.cmd) {
-    pagestate.requestCmd = request?.cmd;
-  }
-  if (request?.action) {
-    pagestate.requestAction = request?.action;
-  }
-  if (request?.tabId) {
-    pagestate.parentTabId = request?.tabId;
-  }
+  pagestate.requestCmd = request?.cmd || undefined;
+  pagestate.requestTabId = request?.tabId || undefined;
 }
