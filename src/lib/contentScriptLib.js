@@ -31,6 +31,17 @@ async function onLoad(event, { onLoaded, storageConfig, statusbarConfig }) {
   }
   window.hxIsLoaded = true;
 
+  let storage = null;
+  if (Array.isArray(storageConfig?.keys)) {
+    storage = await loadStorage2(storageConfig);
+  }
+  if (!isAllowlisted(storage)) {
+    console.warn('Content page is not allowlisted, do not run on this page!');
+    window.hxDisabled = true;
+    onLoaded(null);
+    return;
+  }
+
   let statusbar = null;
   if (statusbarConfig?.enabled) {
     statusbar = createStatusbar(
@@ -45,6 +56,7 @@ async function onLoad(event, { onLoaded, storageConfig, statusbarConfig }) {
 
   const pagestate = {
     log,
+    storage,
     statusbar,
     hashArgs: createHashArgs(window.location.hash),
   };
@@ -53,9 +65,56 @@ async function onLoad(event, { onLoaded, storageConfig, statusbarConfig }) {
 
   pagestate.parentTabId = pagestate.requestTabId || pagestate.hashArgs?.getOne('id') || undefined;
 
-  if (Array.isArray(storageConfig?.keys)) {
-    pagestate.storage = await loadStorage2(storageConfig);
+  onLoaded(pagestate);
+}
+
+function isAllowlisted(storage) {
+  console.log(storage);
+
+  const options = storage?.options;
+
+  const blacklist = (options?.CONTENT_PAGE_BLACKLIST || [])
+    .map((x) => x.toLowerCase().trim())
+    .filter((x) => x);
+  const whitelist = (options?.CONTENT_PAGE_WHITELIST || [])
+    .map((x) => x.toLowerCase().trim())
+    .filter((x) => x);
+
+  console.log(blacklist, whitelist);
+  console.log(blacklist.length, whitelist.length);
+
+  if (!blacklist.length && !whitelist.length) {
+    console.log('No allowlists => allowlisted = TRUE');
+    return true;
   }
 
-  onLoaded(pagestate);
+  const url = (window?.location?.href || '').toLowerCase();
+
+  const isBlacklisted = !!blacklist.find((x) => x.startsWith(url));
+  const isWhitelisted = !!whitelist.find((x) => x.startsWith(url));
+
+  console.log('isBlacklisted, isWhitelisted', isBlacklisted, isWhitelisted);
+
+  if (!blacklist.length && whitelist.length && !isWhitelisted) {
+    console.warn('Empty blacklist & non-empty whitelist & not on whitelist => allowlisted = FALSE');
+    return false;
+  }
+
+  if (!blacklist.length && isWhitelisted) {
+    console.info('Empty blacklist & non-empty whitelist & on whitelist => allowlisted = TRUE');
+    return true;
+  }
+
+  if (isBlacklisted && isWhitelisted) {
+    console.info('Blacklisted + Whitelisted => allowlisted = TRUE');
+    return true;
+  }
+
+  if (isBlacklisted && !isWhitelisted) {
+    console.warn('Blacklisted + not Whitelisted => allowlisted = FALSE');
+    return false;
+  }
+
+  console.info('Not Blacklisted + not Whitelisted => allowlisted = TRUE');
+  return true;
 }

@@ -8,7 +8,7 @@ import '@styles/contentPages/default.scss';
 
 const name = 'opensea';
 const loglevel = 'debug';
-const storageConfig = { keys: [], ensure: [] };
+const storageConfig = { keys: ['options'], ensure: [] };
 const statusbarConfig = { enabled: true };
 const onLoadEvents = { load: true, DOMContentLoaded: true };
 
@@ -20,8 +20,11 @@ console.info(`${name}.js begin`, window?.location?.href);
 startContentScriptPage({ loglevel, onLoaded, onLoadEvents, storageConfig, statusbarConfig });
 
 async function onLoaded(loadedPagestate) {
+  if (window.hxDisabled) {
+    return;
+  }
   pagestate = { ...pagestate, ...loadedPagestate };
-  console.info('Hx contentScript page loaded! Pagestate:', pagestate);
+  console.info('HX contentScript page loaded! Pagestate:', pagestate);
   initMessageHandler();
   runContentPage();
 }
