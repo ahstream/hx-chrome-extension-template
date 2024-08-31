@@ -12,5 +12,7 @@
     "es6": true,
     "node": true
   },
-  "rules": {}
+  "rules": {
+    "no-useless-escape": "off"
+  }
 }

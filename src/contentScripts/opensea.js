@@ -1,6 +1,8 @@
 import { startContentScriptPage } from '@lib/contentScriptLib.js';
 
-//import { sleep } from '@ahstream/hx-lib';
+import { sleep, noDuplicates } from '@ahstream/hx-lib';
+import {} from '@lib/lodashLib';
+import { OPENSEA_HOME_URL, OPENSEA_DROPS_URL, getCollectionPage } from '@lib/openseaLib.js';
 
 // CONFIG
 
@@ -31,9 +33,6 @@ async function onLoaded(loadedPagestate) {
 
 // CUSTOM STARTUP
 
-const OPENSEA_HOME_URL = 'https://opensea.io';
-const OPENSEA_DROPS_URL = 'https://opensea.io/drops';
-
 function runContentPage() {
   console.info('runContentPage');
 
@@ -45,11 +44,21 @@ function runContentPage() {
   if (pagestate.request?.cmd === 'fetchDropsTask') {
     return fetchDropsTask();
   }
+
   if (window.location.href === OPENSEA_HOME_URL) {
     return runHomePage();
   }
+
+  if (window.location.href === OPENSEA_HOME_URL) {
+    return runHomePage();
+  }
+
   if (window.location.href === OPENSEA_DROPS_URL) {
     return runDropsPage();
+  }
+
+  if (isCollectionPage()) {
+    return runCollectionPage();
   }
 
   pagestate.log?.debug('No match on contentPage, do nothing!');
@@ -58,12 +67,19 @@ function runContentPage() {
 // PAGE HANDLERS ---------------------------------------------------------------------
 
 function runHomePage() {
+  pagestate.statusbar.text('runHomePage');
   console.info('runHomePage');
 }
 
 function runDropsPage() {
   console.info('runDropsPage');
+  pagestate.statusbar.text('runDropsPage');
   pagestate.statusbar.button({ text: 'Fetch Drops', handler: fetchDrops });
+}
+
+function runCollectionPage() {
+  console.info('runCollectionPage');
+  pagestate.statusbar.text('runCollectionPage');
 }
 
 // TASK HANDLERS ---------------------------------------------------------------------
@@ -81,9 +97,22 @@ function fetchDropsTask() {
 
 // ACTION HANDLERS ---------------------------------------------------------------------
 
-function fetchDrops() {
+async function fetchDrops({ waitBetween = 3000 } = {}) {
   console.info('fetchDrops');
   pagestate.statusbar.text('fetchDrops');
+
+  const links = await getDropLinks();
+  console.log('links', links);
+
+  const drops = [];
+  for (const url of links.reverse()) {
+    const drop = await getCollectionPage(url);
+    console.log('drop', drop);
+    drops.push(drop);
+    await sleep(waitBetween);
+  }
+
+  console.log('drops', drops);
 }
 
 // MESSAGE HANDLER ---------------------------------------------------------------------
@@ -112,4 +141,44 @@ async function initMessageHandler() {
 
 function handleCommand1() {
   pagestate.log?.debug('handleCommand1');
+}
+
+// HELPERS
+
+async function getDropLinks({ waitBefore = 1000, waitBetween = 2000, scrollX = 0, scrollY = 800 } = {}) {
+  console.info('getDropLinks');
+
+  await sleep(waitBefore);
+  let elemsAll = [];
+  while (!isPageBottom()) {
+    scrollBy(scrollX, scrollY);
+    await sleep(waitBetween);
+    const elemsRaw = Array.from(document.querySelectorAll('a[href$="/overview"]'));
+    const elems = elemsRaw.map((x) => {
+      return { url: x.href, data: x };
+    });
+    console.log(elems.length, elems);
+    elemsAll = noDuplicates([...elemsAll, ...elems]);
+    console.log('all', elemsAll.length, elemsAll);
+  }
+  scrollToHome();
+
+  console.log('Done', elemsAll.length, elemsAll);
+  return elemsAll.map((x) => x.url);
+}
+
+export function isPageBottom(delta = 10) {
+  return window.innerHeight + Math.round(window.scrollY) + delta >= document.body.offsetHeight;
+}
+
+export function scrollBy(x = 0, y = 800) {
+  window.scrollBy(x, y);
+}
+
+export function scrollToHome(x = 0, y = 0) {
+  window.scrollTo(x, y);
+}
+
+export function isCollectionPage(url = window?.location?.href) {
+  return url.match(/opensea.io\/collection\/[^\/]*\/overview/i);
 }

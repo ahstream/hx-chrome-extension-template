@@ -15,7 +15,7 @@ export async function startContentScriptPage({
 }) {
   console.log('startContentScriptPage', ...arguments);
   log.setLevel(loglevel || 'trace');
-  log.info(echo('Logging started'));
+  log.info(echo('Loglevel: ' + log.getLevel()));
   Object.keys(onLoadEvents)
     .filter((x) => onLoadEvents[x])
     .forEach((x) =>
