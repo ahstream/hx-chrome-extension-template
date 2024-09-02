@@ -2,8 +2,6 @@ import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './Navbar.scss';
 
-// import logo from '@images/logos/site-logo10.png';
-
 export default function NavbarTop() {
   return (
     <Navbar expand="lg" className="navbar-top">

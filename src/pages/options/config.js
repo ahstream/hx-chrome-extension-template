@@ -1,39 +1,5 @@
 /* eslint-disable */
 
-const config3 = [
-  {
-    header: 'MISC',
-    hiddenKey: '',
-    options: [
-      ['property', 'DUMMY_DEFAULT_OPTION1', 'DUMMY_DEFAULT_OPTION1'],
-      ['property', 'DUMMY_DEFAULT_OPTION2', 'DUMMY_DEFAULT_OPTION2'],
-      ['space', 25],
-      ['property', 'DUMMY_DEFAULT_OPTION3', 'DUMMY_DEFAULT_OPTION3'],
-      ['description', 'desc'],
-      ['space', 25],
-      ['property', 'DUMMY_DEFAULT_OPTION4', 'DUMMY_DEFAULT_OPTION4'],
-      ['space', 25],
-    ],
-  },
-];
-
-const config2 = [
-  {
-    header: 'MISC',
-    hiddenKey: '',
-    options: [
-      ['property', 'DUMMY_DEFAULT_OPTION1', 'DUMMY_DEFAULT_OPTION1'],
-      ['property', 'DUMMY_DEFAULT_OPTION2', 'DUMMY_DEFAULT_OPTION2'],
-      ['space', 25],
-      ['property', 'DUMMY_DEFAULT_OPTION3', 'DUMMY_DEFAULT_OPTION3'],
-      ['description', 'desc'],
-      ['space', 25],
-      ['property', 'DUMMY_DEFAULT_OPTION4', 'DUMMY_DEFAULT_OPTION4'],
-      ['space', 25],
-    ],
-  },
-];
-
 const config = [
   // Allowlists
   {

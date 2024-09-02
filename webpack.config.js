@@ -23,8 +23,7 @@ const base = {
     toc: './src/pages/toc/toc.js',
     shortcuts: './src/pages/shortcuts/shortcuts.js',
     samplePage: './src/pages/samplePage/samplePage.js',
-    twitter: './src/contentScripts/twitter.js',
-    opensea: './src/contentScripts/opensea.js',
+    example: './src/contentScripts/example.js',
   },
   output: {
     filename: '[name].js',

@@ -34,15 +34,9 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://twitter.com/*", "https://x.com/*"],
-      "js": ["twitter.js"],
-      "css": ["twitter.css"],
-      "run_at": "document_start"
-    },
-    {
-      "matches": ["https://opensea.io/*"],
-      "js": ["opensea.js"],
-      "css": ["opensea.css"],
+      "matches": ["https://example.org/*"],
+      "js": ["example.js"],
+      "css": ["example.css"],
       "run_at": "document_start"
     }
   ]
